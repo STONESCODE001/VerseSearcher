@@ -63,9 +63,12 @@ function App() {
                     <div className="relative isolate overflow-hidden px-6 pt-16 sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
                         <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
                             <h2 className="text-3xl font-black text-black tracking-tight sm:text-4xl">
-                                Search Any Song, Lyrics, or Line – Get the MP3
+                                Search Any Song Lyrics, And gets its Mp3
                             </h2>
-                            <p className="text-5xl font-black text-black tracking-tight sm:text-6xl">
+                            <p
+                                className="
+                      font-light text-black"
+                            >
                                 {" "}
                                 Find and download music instantly from any lyric
                                 line
