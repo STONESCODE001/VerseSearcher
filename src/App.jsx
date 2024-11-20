@@ -9,7 +9,7 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-    const API_KEY = "AIzaSyCF4KMriVl9F_Cs2Y8EvAh3c3aloVoKPUE";
+    const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
     const BASE_URL = "https://www.googleapis.com/youtube/v3";
 
     const [query, setQuery] = useState("");
@@ -70,7 +70,6 @@ function App() {
                 window.open(url, "_blank");
             }
             /*next step pass to backend to download the video as mp3 and store for ffmeg*/
-            
         } catch (error) {
             console.error("Error fetching data from YouTube API", error);
             return [];
