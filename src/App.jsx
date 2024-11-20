@@ -9,17 +9,38 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
+    const API_KEY = "AIzaSyCF4KMriVl9F_Cs2Y8EvAh3c3aloVoKPUE";
+    const BASE_URL = "https://www.googleapis.com/youtube/v3";
+
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
     const [selectedSong, setSelectedSong] = useState(null);
     const [queryResult, setQueryResult] = useState(null); // query result is a JSON array
 
-    // Open dialog for the selected song / track
-    const openDialog = songs => {
-        setSelectedSong(songs);
-        setOpen(true);
-    };
+    const [videoId, setvideoId] = useState("");
 
+    // Open dialog for the selected song / track
+    //ChatGPT
+    const openDialog = async songs => {
+        try {
+            setSelectedSong(songs);
+            setOpen(true);
+
+            // Use optional chaining and default values to construct the query
+            const query = [songs?.trackName, songs?.artistName]
+                .filter(Boolean)
+                .join(" ");
+
+            if (!query) {
+                throw new Error("No valid track name or artist name provided");
+            }
+
+            console.log("Querying YouTube:", query); // For debugging
+            await searchYouTube(query);
+        } catch (error) {
+            console.error("Failed to open dialog or search YouTube:", error);
+        }
+    };
     const handleSearch = async () => {
         try {
             const response = await axios.get(
@@ -28,6 +49,31 @@ function App() {
             setQueryResult(response.data);
         } catch (error) {
             console.error("Error fetching lyrics:", error);
+        }
+    };
+
+    const searchYouTube = async (query, maxResults = 10) => {
+        try {
+            const response = await axios.get(
+                `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${query}&type=video&key=${API_KEY}`
+            );
+
+            //return response.data.items;
+            console.log(response.data);
+            console.log(response.data.items);
+            console.log(response.data.items[0].id.videoId);
+            const videoo = response.data.items[0].id.videoId;
+            setvideoId(response.data.items[0].id.videoId);
+            /* this is the link lihingstone */
+            if (videoo) {
+                const url = `http://www.youtube.com/watch?v=${videoo}`;
+                window.open(url, "_blank");
+            }
+            /*next step pass to backend to download the video as mp3 and store for ffmeg*/
+            
+        } catch (error) {
+            console.error("Error fetching data from YouTube API", error);
+            return [];
         }
     };
 
